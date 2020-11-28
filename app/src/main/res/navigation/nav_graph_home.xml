@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_home"
+    app:startDestination="@id/pokemonListFragment">
+
+    <fragment
+        android:id="@+id/pokemonListFragment"
+        android:name="com.rob.gab.appokemon.ui.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_pokemonListFragment_to_pokemonDetailsFragment"
+            app:destination="@id/pokemonDetailsFragment"
+            app:enterAnim="@anim/slide_up"
+            app:exitAnim="@anim/slide_down"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/pokemonDetailsFragment"
+        android:name="com.rob.gab.appokemon.ui.detailview.PokemonDetailsFragment"
+        android:label="fragment_pokemon_details"
+        tools:layout="@layout/fragment_pokemon_details" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
+
+</navigation>

@@ -1,7 +1,7 @@
 package com.rob.gab.appokemon
 
 import android.app.Application
-import com.rob.gab.appokemon.di.offlineDBPokemonApp
+//import com.rob.gab.appokemon.di.offlineDBPokemonApp
 import com.rob.gab.appokemon.di.onlinePokemonApp
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidFileProperties
@@ -13,7 +13,6 @@ class PokemonApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
 
         startKoin {
             androidLogger(Level.DEBUG)

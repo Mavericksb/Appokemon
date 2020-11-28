@@ -1,3 +1,15 @@
 <resources>
-    <string name="app_name">Appokemon</string>
+    <string name="app_name">Pokemòn</string>
+    <string name="pokemon_height">Altezza: %s m</string>
+    <string name="pokemon_weight">Peso: %s kg</string>
+    <string name="type_title">Tipo:</string>
+    <string name="statistics_title">Statistiche:</string>
+    <string name="stats_label">%s:\n%d / %d</string>
+    <string name="progress_wheel_loading_text">Caricamento…</string>
+    <string name="floating_toast_error_title">Errore</string>
+    <string name="end_of_list_message">Non sono presenti altri Pokemòn.</string>
+    <string name="generic_network_error_message">Errore di rete, riprova più tardi.</string>
+    <string name="welcome_message">A Pokemòn application by:\nRoberto Gabra</string>
+    <string name="floating_toast_warning_title">Attenzione</string>
+    <string name="floating_toast_alert_title">Attenzione</string>
 </resources>

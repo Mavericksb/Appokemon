@@ -7,4 +7,34 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    //
+
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorRipple">#9A525D66</color>
+    <color name="colorGrass">#FF7CB342</color>
+    <color name="colorChest">#FFFDD835</color>
+
+    <color name="typeNormal">#FFA4A27A</color>
+    <color name="typeDragon">#FF743BFB</color>
+    <color name="typePsychic">#FFF15B85</color>
+    <color name="typeElectric">#FFE9CA3C</color>
+    <color name="typeGround">#FFD9BF6C</color>
+    <color name="typeGrass">#FF81C85B</color>
+    <color name="typePoison">#FFA441A3</color>
+    <color name="typeSteel">#FFBAB7D2</color>
+    <color name="typeFairy">#FFDDA2DF</color>
+    <color name="typeFire">#FFF48130</color>
+    <color name="typeFight">#FFBE3027</color>
+    <color name="typeBug">#FFA8B822</color>
+    <color name="typeGhost">#FF705693</color>
+    <color name="typeDark">#FF745945</color>
+    <color name="typeIce">#FF9BD8D8</color>
+    <color name="typeWater">#FF658FF1</color>
+    <color name="typeType">#FF658FA0</color>
+    <color name="colorPrimary_50">#803F51B5</color>
+    <color name="wheelEmpty">#80FFFFFF</color>
+    <color name="wheelSolid">#FF7019F2</color>
 </resources>

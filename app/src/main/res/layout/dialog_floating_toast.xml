@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="40dp">
+
+    <ImageView
+        android:id="@+id/floatingToastTopImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/app_name"
+        android:scaleType="fitXY"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_floating_toast_top_alert" />
+
+    <ImageView
+        android:id="@+id/floatingToastMiddleImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/app_name"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_floating_toast_middle"
+        app:layout_constraintBottom_toBottomOf="@+id/toastBody"
+        app:layout_constraintEnd_toEndOf="@id/floatingToastTopImage"
+        app:layout_constraintStart_toStartOf="@id/floatingToastTopImage"
+        app:layout_constraintTop_toBottomOf="@id/floatingToastTopImage" />
+
+    <ImageView
+        android:id="@+id/floatingToastBottomImage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/app_name"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_floating_toast_bottom"
+        app:layout_constraintEnd_toEndOf="@id/floatingToastTopImage"
+        app:layout_constraintStart_toStartOf="@id/floatingToastTopImage"
+        app:layout_constraintTop_toBottomOf="@id/floatingToastMiddleImage" />
+
+    <TextView
+        android:id="@+id/toastTitle"
+        style="@style/darker_gray_normal_12"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="40dp"
+        android:ellipsize="end"
+        android:lines="1"
+        app:layout_constraintEnd_toEndOf="@id/floatingToastTopImage"
+        app:layout_constraintStart_toStartOf="@id/floatingToastTopImage"
+        app:layout_constraintTop_toTopOf="@id/floatingToastTopImage"
+        tools:text="Message" />
+
+    <TextView
+        android:id="@+id/toastBody"
+        style="@style/blue_dark_normal_16"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="3"
+        app:layout_constraintEnd_toEndOf="@id/toastTitle"
+        app:layout_constraintStart_toStartOf="@id/toastTitle"
+        app:layout_constraintTop_toTopOf="@id/floatingToastMiddleImage"
+        tools:text="@tools:sample/lorem/random" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
