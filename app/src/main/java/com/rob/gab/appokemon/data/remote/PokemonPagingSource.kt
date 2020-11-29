@@ -1,10 +1,9 @@
-package com.rob.gab.appokemon.remote
+package com.rob.gab.appokemon.data.remote
 
 import androidx.paging.PagingSource
-import com.rob.gab.appokemon.model.Constants.PAGE_LIMIT
-import com.rob.gab.appokemon.model.PokemonModel
-import com.rob.gab.appokemon.model.map.mapPokemon
-import com.rob.gab.appokemon.repository.PokemonRepository
+import com.rob.gab.appokemon.Constants.PAGE_LIMIT
+import com.rob.gab.appokemon.domain.model.PokemonModel
+import com.rob.gab.appokemon.data.db.map.mapPokemon
 import retrofit2.HttpException
 import java.io.IOException
 

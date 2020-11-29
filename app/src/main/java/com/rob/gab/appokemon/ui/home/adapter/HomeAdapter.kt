@@ -5,18 +5,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
-import androidx.paging.LoadState
-import androidx.paging.LoadStateAdapter
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.rob.gab.appokemon.R
-import com.rob.gab.appokemon.model.PokemonModel
+import com.rob.gab.appokemon.domain.model.PokemonModel
 import com.rob.gab.appokemon.ui.home.HomeFragment.Companion.TAG
 import kotlinx.android.synthetic.main.home_list_item.view.*
-import kotlinx.android.synthetic.main.home_load_state_footer_view_item.view.*
 
 
 val POKEMON_COMPARATOR = object : DiffUtil.ItemCallback<PokemonModel>() {

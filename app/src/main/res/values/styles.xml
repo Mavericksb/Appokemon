@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <style name="FloatingToastFadeAnimation">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+
+    <style name="FloatingToastSlideDownAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_down_floating_toast</item>
+        <item name="android:windowExitAnimation">@anim/slide_up_floating_toast</item>
+    </style>
+
+    <style name="darker_gray_normal_12">
+        <item name="android:textColor">@android:color/darker_gray</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="blue_dark_normal_16">
+        <item name="android:textColor">@android:color/holo_blue_dark</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+</resources>

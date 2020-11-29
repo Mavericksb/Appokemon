@@ -1,9 +1,11 @@
 package com.rob.gab.appokemon.di
 
+import androidx.paging.ExperimentalPagingApi
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import com.rob.gab.appokemon.model.Constants.ENDPOINT
-import com.rob.gab.appokemon.remote.ApiService
-import com.rob.gab.appokemon.remote.PokemonPagingSource
+import com.rob.gab.appokemon.Constants.ENDPOINT
+import com.rob.gab.appokemon.data.remote.ApiService
+import com.rob.gab.appokemon.data.remote.PokemonPagingSource
+import com.rob.gab.appokemon.data.remote.PokemonsRemoteMediator
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
@@ -11,9 +13,8 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import kotlin.reflect.KClass
 
-val networkProvider = module {
+@ExperimentalPagingApi val networkProvider = module {
     single { createOkHttpClient() }
 
     single { createWebService<ApiService>(get(), get()) }
@@ -21,6 +22,8 @@ val networkProvider = module {
     single { provideMoshi() }
 
     single { PokemonPagingSource(get())}
+
+    factory { PokemonsRemoteMediator(get(), get()) }
 }
 
 fun createOkHttpClient(/*mockInterceptor: MockInterceptor? = null*/): OkHttpClient {

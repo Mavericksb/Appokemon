@@ -1,8 +1,7 @@
 package com.rob.gab.appokemon.repository
 
-import androidx.lifecycle.LiveData
 import androidx.paging.PagingData
-import com.rob.gab.appokemon.model.PokemonModel
+import com.rob.gab.appokemon.domain.model.PokemonModel
 import kotlinx.coroutines.flow.Flow
 
 interface PokemonRepository {

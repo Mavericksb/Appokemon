@@ -1,4 +1,4 @@
-package com.rob.gab.appokemon.model
+package com.rob.gab.appokemon
 
 object Constants {
     const val ENDPOINT = "https://pokeapi.co/api/v2/"

@@ -1,28 +1,37 @@
 package com.rob.gab.appokemon.repository
 
-import androidx.lifecycle.LiveData
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.liveData
-import com.rob.gab.appokemon.model.Constants.PAGE_LIMIT
-import com.rob.gab.appokemon.model.PokemonModel
-import com.rob.gab.appokemon.remote.ApiService
-import com.rob.gab.appokemon.remote.PokemonPagingSource
+import com.rob.gab.appokemon.data.db.PokemonDatabase
+import com.rob.gab.appokemon.domain.model.PokemonModel
+import com.rob.gab.appokemon.data.remote.ApiService
+import com.rob.gab.appokemon.data.remote.PokemonPagingSource
+import com.rob.gab.appokemon.data.remote.PokemonsRemoteMediator
 import kotlinx.coroutines.flow.Flow
 
-class PokemonRepositoryImpl(
+class PokemonRepositoryImpl @ExperimentalPagingApi constructor(
     private val apiService: ApiService,
-    private val pokemonPagingSource: PokemonPagingSource
+    private val pokemonsRemoteMediator: PokemonsRemoteMediator,
+//    private val pokemonPagingSource: PokemonPagingSource
+    private val database: PokemonDatabase
 ): PokemonRepository {
+
+
+
     override fun getPokemonStream(pageLimit: Int): Flow<PagingData<PokemonModel>> {
+
+        val pagingSourceFactory =  database.pokemonDao().getPokemons(0, pageLimit)
+
         return Pager(
             config = PagingConfig(
                 initialLoadSize = pageLimit,
                 pageSize = pageLimit,
                 enablePlaceholders =  false
         ),
-            pagingSourceFactory = { pokemonPagingSource }).flow
+            remoteMediator = pokemonsRemoteMediator,
+            pagingSourceFactory = { pagingSourceFactory }).flow
     }
 
 }

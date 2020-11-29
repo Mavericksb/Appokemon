@@ -1,9 +1,7 @@
 package com.rob.gab.appokemon.usecase
 
-import androidx.lifecycle.LiveData
 import androidx.paging.PagingData
-import com.rob.gab.appokemon.model.PokemonModel
-import com.rob.gab.appokemon.remote.dto.PokemonResponse
+import com.rob.gab.appokemon.domain.model.PokemonModel
 import com.rob.gab.appokemon.repository.PokemonRepository
 import kotlinx.coroutines.flow.Flow
 

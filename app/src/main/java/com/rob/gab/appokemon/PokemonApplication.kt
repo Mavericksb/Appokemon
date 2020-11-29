@@ -1,6 +1,7 @@
 package com.rob.gab.appokemon
 
 import android.app.Application
+import androidx.paging.ExperimentalPagingApi
 //import com.rob.gab.appokemon.di.offlineDBPokemonApp
 import com.rob.gab.appokemon.di.onlinePokemonApp
 import org.koin.android.ext.koin.androidContext
@@ -11,6 +12,7 @@ import org.koin.core.logger.Level
 
 class PokemonApplication : Application() {
 
+    @ExperimentalPagingApi
     override fun onCreate() {
         super.onCreate()
 

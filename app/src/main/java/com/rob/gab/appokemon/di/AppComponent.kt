@@ -1,5 +1,6 @@
 package com.rob.gab.appokemon.di
 
+import androidx.paging.ExperimentalPagingApi
 import com.rob.gab.appokemon.ui.home.HomeViewModel
 import com.rob.gab.appokemon.usecase.GetPokemons
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -26,6 +27,6 @@ val appModule = module {
 }
 
 // Gather all app modules
-val onlinePokemonApp = appModule + roomDatabase + networkProvider
+@ExperimentalPagingApi val onlinePokemonApp = appModule + roomDatabase + networkProvider
 //val offlineWeatherApp = onlineWeatherApp + mockWebServiceModule
 //val offlineDBPokemonApp = onlinePokemonApp + roomDatabaseModule

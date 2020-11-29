@@ -1,12 +1,10 @@
-package com.vit.ant.pokemon.view.widget
+package com.rob.gab.appokemon.ui.widget
 
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.Gravity
 import android.view.View
 import android.view.Window
@@ -14,6 +12,7 @@ import android.view.WindowManager
 import androidx.annotation.StringRes
 import com.rob.gab.appokemon.R
 import kotlinx.android.synthetic.main.dialog_floating_toast.*
+import java.util.*
 
 
 class FloatingToastDialog(
@@ -72,12 +71,12 @@ class FloatingToastDialog(
      * NOTE: SET FADE ANIMATION BEFORE Dialog.show()
      */
     fun fade(): FloatingToastDialog {
-//        floatingToastAnimation = R.style.FloatingToastFadeAnimation
+        floatingToastAnimation = R.style.FloatingToastFadeAnimation
         return this
     }
 
     fun slideDown(): FloatingToastDialog {
-//        floatingToastAnimation = R.style.FloatingToastSlideDownAnimation
+        floatingToastAnimation = R.style.FloatingToastSlideDownAnimation
         return this
     }
 
@@ -109,23 +108,27 @@ class FloatingToastDialog(
                 setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             }
 
-//            toastTitle.text = title
-//            toastBody.text = message
-//            val idDrawable = when (type) {
-//                FloatingToastType.Alert -> R.drawable.ic_floating_toast_top_alert
-//                FloatingToastType.Error -> R.drawable.ic_floating_toast_top_error
-//                else -> R.drawable.ic_floating_toast_top_warning
-//            }
-//            floatingToastTopImage.setImageResource(idDrawable)
+            toastTitle.text = title
+            toastBody.text = message
+            val idDrawable = when (type) {
+                FloatingToastType.Alert -> R.drawable.ic_floating_toast_top_alert
+                FloatingToastType.Error -> R.drawable.ic_floating_toast_top_error
+                else -> R.drawable.ic_floating_toast_top_warning
+            }
+            floatingToastTopImage.setImageResource(idDrawable)
         }
     }
 
     override fun show() {
         super.show()
-        timerMillis?.let { delayMillis ->
-            Handler(Looper.getMainLooper()).postDelayed({ dismiss() }, delayMillis)
-        }
 
+        timerMillis?.let {
+            Timer().schedule(object: TimerTask() {
+                override fun run() {
+                    dismiss()
+                }
+            }, it)
+        }
     }
 
     override fun onClick(v: View) {
