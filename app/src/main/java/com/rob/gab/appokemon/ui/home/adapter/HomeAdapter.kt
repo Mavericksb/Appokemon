@@ -1,6 +1,5 @@
 package com.rob.gab.appokemon.ui.home.adapter
 
-import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,19 +8,19 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.rob.gab.appokemon.R
-import com.rob.gab.appokemon.domain.model.PokemonModel
+import com.rob.gab.appokemon.data.domain.model.PokemonModel
 import com.rob.gab.appokemon.ui.home.HomeFragment.Companion.TAG
 import kotlinx.android.synthetic.main.home_list_item.view.*
 
 
 val POKEMON_COMPARATOR = object : DiffUtil.ItemCallback<PokemonModel>() {
     override fun areItemsTheSame(oldItem: PokemonModel, newItem: PokemonModel): Boolean =
-        // Pokemon ID serves as unique ID
         oldItem.id == newItem.id
-    @SuppressLint("DiffUtilEquals")
+
     override fun areContentsTheSame(oldItem: PokemonModel, newItem: PokemonModel): Boolean =
-        oldItem == newItem
+        true //oldItem == newItem
 }
 
 
@@ -44,9 +43,10 @@ class PokemonListAdapter(private val listener: ((Int) -> Unit)) : PagingDataAdap
                 Glide
                     .with(context)
                     .load(pokemonModel?.imageUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .centerCrop()
                     .placeholder(R.drawable.pokeball)
-                    .into(pokemonImage);
+                    .into(pokemonImage)
 
                 setOnClickListener {
                     pokemonModel?.id?.let { listener.invoke(it) }

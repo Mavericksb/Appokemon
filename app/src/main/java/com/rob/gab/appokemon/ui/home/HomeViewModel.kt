@@ -1,18 +1,17 @@
 package com.rob.gab.appokemon.ui.home
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.map
 import com.rob.gab.appokemon.Constants.PAGE_LIMIT
-import com.rob.gab.appokemon.domain.model.PokemonModel
-import com.rob.gab.appokemon.usecase.GetPokemons
-import io.uniflow.androidx.flow.AndroidDataFlow
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import com.rob.gab.appokemon.data.domain.map.pokemonEntityToDomain
+import com.rob.gab.appokemon.repository.PokemonRepository
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-class HomeViewModel(private val getPokemons: GetPokemons) : AndroidDataFlow() {
+class HomeViewModel(private val repository: PokemonRepository): ViewModel() {
 
     val userIntent = Channel<HomeIntent>(Channel.UNLIMITED)
 
@@ -24,22 +23,24 @@ class HomeViewModel(private val getPokemons: GetPokemons) : AndroidDataFlow() {
         viewModelScope.launch {
             handleIntent()
         }
-        userIntent.offer(HomeIntent.FetchPokemons)
     }
 
     private suspend fun handleIntent() {
         userIntent.consumeAsFlow().collect {
             when (it) {
                 is HomeIntent.FetchPokemons -> {
-                    viewModelScope.launch { fetchPokemons() }
+                    viewModelScope.launch { getPokemons() }
                 }
             }
         }
     }
 
-    suspend fun fetchPokemons() {
-        getPokemons(PAGE_LIMIT)
-            .cachedIn(viewModelScope)
-            .collect { _state.value = HomeState.Success(it) }
+    suspend fun getPokemons() {
+        repository.getPokemonStream(PAGE_LIMIT)
+            .cachedIn(viewModelScope).map { it.map {
+                pokemonEntityToDomain(it) } }
+            .collectLatest {
+                _state.value = HomeState.Success(it)
+            }
     }
 }

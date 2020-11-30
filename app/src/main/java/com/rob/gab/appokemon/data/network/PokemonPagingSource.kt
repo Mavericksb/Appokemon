@@ -1,9 +1,9 @@
-package com.rob.gab.appokemon.data.remote
+package com.rob.gab.appokemon.data.network
 
 import androidx.paging.PagingSource
 import com.rob.gab.appokemon.Constants.PAGE_LIMIT
-import com.rob.gab.appokemon.domain.model.PokemonModel
-import com.rob.gab.appokemon.data.db.map.mapPokemon
+import com.rob.gab.appokemon.data.domain.map.mapPokemonResponseToDomain
+import com.rob.gab.appokemon.data.domain.model.PokemonModel
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -21,7 +21,7 @@ class PokemonPagingSource(
 
         return try {
             val response = service.getPokemons(position*PAGE_LIMIT, params.loadSize)
-            val pokemons = mapPokemon(response)
+            val pokemons = mapPokemonResponseToDomain(response)
 
             LoadResult.Page(
                 data = pokemons,

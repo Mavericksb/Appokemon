@@ -1,7 +1,7 @@
 package com.rob.gab.appokemon.ui.home
 
 import androidx.paging.PagingData
-import com.rob.gab.appokemon.domain.model.PokemonModel
+import com.rob.gab.appokemon.data.domain.model.PokemonModel
 
 
 sealed class HomeState{

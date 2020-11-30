@@ -1,15 +1,15 @@
-package com.rob.gab.appokemon.data.remote.dto
+package com.rob.gab.appokemon.data.network.dto
 
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class PokemonResponse(
-//    @JsonProperty("count")
+//    @Json( name = "count")
     val count: Int?,
-//    @JsonProperty("next")
+//    @Json( name = "next")
     val next: String?,
-//    @JsonProperty("previous")
+//    @Json( name = "previous")
     val previous: Any?,
-//    @JsonProperty("results")
+//    @Json( name = "results")
     val results: List<Result>?
 )

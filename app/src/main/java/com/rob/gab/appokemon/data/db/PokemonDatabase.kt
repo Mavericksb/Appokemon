@@ -4,13 +4,18 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.rob.gab.appokemon.domain.model.PokemonModel
+import androidx.room.TypeConverters
+import com.rob.gab.appokemon.data.db.dao.EntityPokemon
+import com.rob.gab.appokemon.data.db.dao.EntityPokemonDetails
+import com.rob.gab.appokemon.data.db.map.Converters
 
-@Database(
-    entities = [PokemonModel::class],
+@Database
+    (
+    entities = [EntityPokemon::class, EntityPokemonDetails::class],
     version = 1,
     exportSchema = false
 )
+@TypeConverters(Converters::class)
 abstract class PokemonDatabase : RoomDatabase() {
 
     abstract fun pokemonDao(): PokemonDao

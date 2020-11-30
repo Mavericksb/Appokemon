@@ -3,9 +3,8 @@ package com.rob.gab.appokemon.di
 import androidx.paging.ExperimentalPagingApi
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.rob.gab.appokemon.Constants.ENDPOINT
-import com.rob.gab.appokemon.data.remote.ApiService
-import com.rob.gab.appokemon.data.remote.PokemonPagingSource
-import com.rob.gab.appokemon.data.remote.PokemonsRemoteMediator
+import com.rob.gab.appokemon.data.network.ApiService
+import com.rob.gab.appokemon.data.network.PokemonsRemoteMediator
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
@@ -21,7 +20,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
     single { provideMoshi() }
 
-    single { PokemonPagingSource(get())}
+//    single { PokemonPagingSource(get())}
 
     factory { PokemonsRemoteMediator(get(), get()) }
 }
@@ -42,8 +41,6 @@ inline fun <reified T> createWebService(client: OkHttpClient, moshi: Moshi): T {
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .build()
     return retrofit.create(T::class.java)
-
-
 }
 
 fun provideMoshi() : Moshi {

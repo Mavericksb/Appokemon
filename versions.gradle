@@ -34,10 +34,12 @@ ext {
     navigation_version = "2.3.1"
 
     //Room
-    room_version = "2.2.5"
+    room_version = "2.3.0-alpha03"
 
     //Paging
     paging_version = "3.0.0-alpha09"
+
+    lifecycleVersion = '2.2.0'
 
     //Glide
     glide_version = "4.11.0"

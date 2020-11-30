@@ -1,4 +1,4 @@
-package com.rob.gab.appokemon.data.remote
+package com.rob.gab.appokemon.data.network
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
@@ -6,10 +6,9 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.bumptech.glide.load.HttpException
-import com.rob.gab.appokemon.Constants.PAGE_LIMIT
 import com.rob.gab.appokemon.data.db.PokemonDatabase
-import com.rob.gab.appokemon.data.db.map.mapPokemon
-import com.rob.gab.appokemon.domain.model.PokemonModel
+import com.rob.gab.appokemon.data.db.dao.EntityPokemon
+import com.rob.gab.appokemon.data.db.map.mapResponseToEntity
 import java.io.IOException
 
 
@@ -17,33 +16,36 @@ import java.io.IOException
 class PokemonsRemoteMediator(
     private val service: ApiService,
     private val database: PokemonDatabase
-): RemoteMediator<Int, PokemonModel>() {
+) : RemoteMediator<Int, EntityPokemon>() {
 
     companion object {
         const val STARTING_POKEMON_ID = 0
     }
 
 
-    override suspend fun load(loadType: LoadType, state: PagingState<Int, PokemonModel>): MediatorResult {
+    override suspend fun load(loadType: LoadType, state: PagingState<Int, EntityPokemon>): MediatorResult {
 
-        val page = when (loadType) {
+        val position = when (loadType) {
             LoadType.REFRESH -> {
                 0
             }
             LoadType.PREPEND -> {
                 state.pages.firstOrNull() { it.data.isNotEmpty() }?.data?.firstOrNull()?.id.let {
-                   if(it==0) 0 else it?.minus(1)?: 0
+                    val id = it?.minus(1)
+                    if (id == 0) {
+                        return MediatorResult.Success(endOfPaginationReached = true)
+                    } else id?.minus(1) ?: 0
                 }
             }
             LoadType.APPEND -> {
-                state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()?.id?.plus(1) ?: 0
+                state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()?.id ?: 0
             }
-            }
+        }
 
 
         try {
-            val response = service.getPokemons(page*PAGE_LIMIT, state.config.pageSize)
-            val pokemons = mapPokemon(response)
+            val response = service.getPokemons(position, state.config.pageSize)
+            val pokemons = mapResponseToEntity(response)
 
             val endOfPaginationReached = pokemons.isEmpty()
             database.withTransaction {
@@ -51,8 +53,8 @@ class PokemonsRemoteMediator(
                 if (loadType == LoadType.REFRESH) {
                     database.pokemonDao().clearPokemons()
                 }
-                val prevKey = if (page == STARTING_POKEMON_ID) null else page - 1
-                val nextKey = if (endOfPaginationReached) null else page + 1
+//                val prevKey = if (position == STARTING_POKEMON_ID) null else position - 1
+//                val nextKey = if (endOfPaginationReached) null else position + 1
                 database.pokemonDao().insertAll(pokemons)
             }
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)

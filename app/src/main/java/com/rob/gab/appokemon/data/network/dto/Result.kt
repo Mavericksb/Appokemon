@@ -1,4 +1,4 @@
-package com.rob.gab.appokemon.data.remote.dto
+package com.rob.gab.appokemon.data.network.dto
 
 import com.squareup.moshi.JsonClass
 
