@@ -27,8 +27,6 @@ import com.rob.gab.appokemon.utils.Utils.hideLoading
 import com.rob.gab.appokemon.utils.Utils.showLoading
 import com.rob.gab.appokemon.utils.debounce
 import com.rob.gab.appokemon.utils.onTextChanged
-import io.uniflow.androidx.flow.onEvents
-import io.uniflow.androidx.flow.onStates
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel

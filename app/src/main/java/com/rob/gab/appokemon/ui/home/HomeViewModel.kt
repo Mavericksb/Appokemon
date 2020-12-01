@@ -11,15 +11,13 @@ import com.rob.gab.appokemon.R
 import com.rob.gab.appokemon.data.domain.map.pokemonEntityToDomain
 import com.rob.gab.appokemon.data.domain.model.PokemonModel
 import com.rob.gab.appokemon.repository.PokemonRepository
-import io.uniflow.androidx.flow.AndroidDataFlow
-import io.uniflow.core.flow.data.Event
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import java.util.*
 
-class HomeViewModel(private val repository: PokemonRepository) : AndroidDataFlow() {
+class HomeViewModel(private val repository: PokemonRepository) : ViewModel() {
 
     private var pagingData: Flow<PagingData<PokemonModel>>? = null
     val userIntent = Channel<HomeIntent>(Channel.UNLIMITED)

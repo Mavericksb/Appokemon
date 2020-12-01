@@ -1,4 +1,4 @@
-package com.rob.gab.appokemon.ui
+package com.rob.gab.appokemon.utils
 
 data class Event<out T>(private val content: T) {
 

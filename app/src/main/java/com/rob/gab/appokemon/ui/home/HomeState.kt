@@ -3,10 +3,9 @@ package com.rob.gab.appokemon.ui.home
 import androidx.paging.PagingData
 import com.rob.gab.appokemon.data.domain.model.PokemonDetailsModel
 import com.rob.gab.appokemon.data.domain.model.PokemonModel
-import io.uniflow.core.flow.data.Event
-import io.uniflow.core.flow.data.UIState
+import com.rob.gab.appokemon.utils.Event
 
-sealed class HomeState: UIState() {
+sealed class HomeState {
     object Idle : HomeState()
     object Loading : HomeState()
     data class Success(val list: PagingData<PokemonModel>?=null,  val searchEvent: Event<PokemonDetailsModel?>?=null) : HomeState()
