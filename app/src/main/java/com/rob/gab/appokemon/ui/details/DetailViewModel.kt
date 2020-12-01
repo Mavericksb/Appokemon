@@ -51,7 +51,7 @@ class DetailViewModel(private val repository: PokemonRepository): ViewModel() {
         }
     }
 
-    // # Alternative method, using a flow
+    // Metodo alternativo, utilizzando un flow , utile solo se ci si aspettano diversi risultati
 //    suspend fun fetchPokemonDetails(id: Int) {
 //            val response = repository.getPokemonDetailsResource(id)
 //            response.collect {

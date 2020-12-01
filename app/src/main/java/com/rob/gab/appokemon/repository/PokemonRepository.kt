@@ -13,6 +13,4 @@ interface PokemonRepository {
 //    suspend fun getPokemonDetailsResource(id: Int): Flow<Resource<*>>
 
     suspend fun getPokemonDetails(id: Int): PokemonDetailsModel?
-
-    suspend fun getPokemonByName(name: String): PokemonDetailsModel?
 }

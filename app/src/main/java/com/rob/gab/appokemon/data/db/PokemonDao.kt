@@ -21,7 +21,7 @@ interface PokemonDao {
     @Query( "SELECT * FROM pokemon_details_table WHERE id = :id")
     suspend fun getPokemonDetails(id: Int): EntityPokemonDetails
 
-    @Query( "SELECT * FROM pokemon_details_table WHERE name = :name")
+    @Query( "SELECT * FROM pokemon_details_table WHERE name LIKE :name")
     suspend fun getPokemonByName(name: String): EntityPokemonDetails
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -110,8 +110,6 @@ class FloatingToastDialog(
         this.setOnCancelListener {
             onCancel?.invoke()
         }
-
-
     }
 
 

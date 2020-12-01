@@ -14,4 +14,5 @@
     <string name="floating_toast_alert_title">Attenzione</string>
     <string name="generic_error">Si è verificato un problema</string>
     <string name="no_pokemon_found">Nessun pokemon trovato</string>
+    <string name="search_a_pokemon">Cerca un pokemon</string>
 </resources>

@@ -1,38 +1,54 @@
 package com.rob.gab.appokemon.ui.home
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.paging.LoadState
+import androidx.paging.map
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.rob.gab.appokemon.R
+import com.rob.gab.appokemon.data.domain.model.PokemonModel
 import com.rob.gab.appokemon.ui.home.adapter.PokemonListAdapter
 import com.rob.gab.appokemon.ui.widget.FloatingToastDialog
 import com.rob.gab.appokemon.utils.Utils
 import com.rob.gab.appokemon.utils.Utils.hideLoading
 import com.rob.gab.appokemon.utils.Utils.showLoading
+import com.rob.gab.appokemon.utils.debounce
+import com.rob.gab.appokemon.utils.onTextChanged
 import io.uniflow.androidx.flow.onEvents
 import io.uniflow.androidx.flow.onStates
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.selects.whileSelect
+import org.koin.androidx.scope.fragmentScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.lang.ref.WeakReference
+import java.util.concurrent.TimeUnit
 
 @ExperimentalCoroutinesApi
 class HomeFragment : Fragment() {
 
+    private var noResultToast: FloatingToastDialog? = null
     private lateinit var navController: NavController
     private var mSearchId: Int? = null
     private var floatingToast: FloatingToastDialog? = null
@@ -67,21 +83,21 @@ class HomeFragment : Fragment() {
 
 
     private fun observeState() {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.state.collectLatest {
+                searchBtn.isEnabled = true
                 when (it) {
                     is HomeState.Success -> {
+                        swipeToRefreshLayout?.isRefreshing = false
                         hideLoading(WeakReference(requireActivity()))
-                        it.list?.let { pagingData  -> mAdapter.submitData(pagingData) }
+                        it.list?.let { pagingData -> mAdapter.submitData(pagingData) }
                         it.searchEvent?.let { event ->
                             event.take()?.let { pokemon -> navController.navigate(HomeFragmentDirections.actionPokemonListFragmentToPokemonDetailsFragment(id = -1, pokemon = pokemon)) }
-                            swipeToRefreshLayout?.isRefreshing = false
-                            searchBtn.isEnabled=true
                         }
                     }
                     is HomeState.Loading -> showLoading(WeakReference(requireActivity()))
                     is HomeState.Failed -> {
-                        it.message?.let { FloatingToastDialog(requireContext(), it, FloatingToastDialog.FloatingToastType.Alert) }
+                        it.message?.let { FloatingToastDialog(requireContext(), it, FloatingToastDialog.FloatingToastType.Alert).show() }
                         hideLoading(WeakReference(requireActivity()))
                     }
                 }
@@ -112,9 +128,21 @@ class HomeFragment : Fragment() {
                 mAdapter.refresh()
             }
         }
+
+        lifecycleScope.launch {
+            inputName.onTextChanged()
+                .debounce( lifecycleScope, 1000)
+                    //cambiare a collectLatest se si utilizza il callbackFlow
+                .consumeEach { name ->
+                    lifecycleScope.launch {
+                        viewModel.userIntent.offer(HomeIntent.Search(name?.trim()))
+                    }
+                }
+        }
     }
 
     private fun initAdapterStateListener() {
+
         mAdapter.addLoadStateListener { loadState ->
             // Only show the list if refresh succeeds.
 //            pokemonRecyclerView?.isVisible = loadState.source.refresh is LoadState.NotLoading
@@ -142,18 +170,9 @@ class HomeFragment : Fragment() {
             }
         }
 
-        searchBtn.setOnClickListener {
-            val name = inputName.text.toString()
-            if (name.isNotEmpty()) {
-                searchPokemon(name)
-                searchBtn.isEnabled=false
-            }
-        }
+
     }
 
-    private fun searchPokemon(name: String) {
-        viewModel.userIntent.offer(HomeIntent.GetPokemonByName(name))
-    }
 
     override fun onPause() {
         super.onPause()

@@ -26,9 +26,9 @@ class PokemonRepositoryImpl @ExperimentalPagingApi constructor(
 
         return Pager(
             config = PagingConfig(
-                initialLoadSize = pageLimit,
+                initialLoadSize = pageLimit*3,
                 pageSize = pageLimit,
-                enablePlaceholders = false
+                enablePlaceholders = true
             ),
             initialKey = offset,
             remoteMediator = pokemonsRemoteMediator,
@@ -40,7 +40,9 @@ class PokemonRepositoryImpl @ExperimentalPagingApi constructor(
         //catch any network error
         try {
             val response = apiService.getPokemonDetails(id)
+            //Network response è ok, mantengo aggiornato il database
             response?.let {
+                //Todo: mapper diretto
                 pokemonDetails = mapDetailsResponseToDomain(it)
                 database.pokemonDao().insertDetails(mapDetailsDomainToEntity(pokemonDetails!!))
             }
@@ -51,24 +53,8 @@ class PokemonRepositoryImpl @ExperimentalPagingApi constructor(
         return pokemonDetails
     }
 
-    override suspend fun getPokemonByName(name: String): PokemonDetailsModel? {
-        var pokemonDetails: PokemonDetailsModel? = null
-        //catch any network error
-        try {
-            val response = apiService.getPokemonByName(name)
-            response?.let {
-                pokemonDetails = mapDetailsResponseToDomain(it)
-                database.pokemonDao().insertDetails(mapDetailsDomainToEntity(pokemonDetails!!))
-            }
-        } catch (e: Exception){
-            //If network has any error, try to retrieve pokemon from DB
-            pokemonDetails = mapDetailsEntityToDomain(database.pokemonDao().getPokemonByName(name))
-        }
-        return pokemonDetails
-    }
-
-    // # Alternative method, using a flow wrapping api response in a Response::class
-    // Probably not useful for this Pokemon's API, but can be useful when we have to read response's metadata.
+    // # Metodo alternativo, utilizzano un flow ed una Response::class come wrapper per aver accesso anche ai metadata della chiamata
+    // Ho evitato l'uso perché del tutto inutile con questa Api
 //    override suspend fun getPokemonDetailsResource(id: Int): Flow<Resource<*>> {
 //        return flow {
 //
