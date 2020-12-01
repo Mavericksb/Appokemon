@@ -29,6 +29,7 @@ class ProgressWheelDialog : FullScreenDialogFragment() {
         }
 
         fun show(activity: FragmentActivity, loadingText: String? = null) = synchronized(activity) {
+            if(showingLoading) return
             retrieveDialogFragment(activity)?.dismissAllowingStateLoss()
             newInstance(loadingText).show(activity.supportFragmentManager, TAG)
             showingLoading = true
@@ -40,7 +41,7 @@ class ProgressWheelDialog : FullScreenDialogFragment() {
                 ?: run { // wait to allow the fragment to be attached
                     Handler(Looper.getMainLooper()).postDelayed(
                         { if (!showingLoading) retrieveDialogFragment(activity)?.dismissAllowingStateLoss() },
-                        300
+                        1000
                     )
                 }
         }

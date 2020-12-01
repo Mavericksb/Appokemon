@@ -22,23 +22,17 @@ class PokemonsRemoteMediator(
         const val STARTING_POKEMON_ID = 0
     }
 
-
     override suspend fun load(loadType: LoadType, state: PagingState<Int, EntityPokemon>): MediatorResult {
-
         val position = when (loadType) {
             LoadType.REFRESH -> {
                 0
             }
             LoadType.PREPEND -> {
-                state.pages.firstOrNull() { it.data.isNotEmpty() }?.data?.firstOrNull()?.id.let {
-                    val id = it?.minus(1)
-                    if (id == 0) {
-                        return MediatorResult.Success(endOfPaginationReached = true)
-                    } else id?.minus(1) ?: 0
-                }
+                return MediatorResult.Success(endOfPaginationReached = true)
             }
             LoadType.APPEND -> {
-                state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()?.id ?: 0
+                val item = state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()?.id
+                item?.plus(1)?: 0
             }
         }
 
@@ -64,4 +58,5 @@ class PokemonsRemoteMediator(
             return MediatorResult.Error(exception)
         }
     }
+
 }

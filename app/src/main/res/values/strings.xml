@@ -12,4 +12,6 @@
     <string name="welcome_message">A Pokemòn application by:\nRoberto Gabra</string>
     <string name="floating_toast_warning_title">Attenzione</string>
     <string name="floating_toast_alert_title">Attenzione</string>
+    <string name="generic_error">Si è verificato un problema</string>
+    <string name="no_pokemon_found">Nessun pokemon trovato</string>
 </resources>

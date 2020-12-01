@@ -2,6 +2,7 @@ package com.rob.gab.appokemon.ui.widget
 
 import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -18,7 +19,7 @@ import java.util.*
 class FloatingToastDialog(
     context: Context,
     val title: String,
-    val message: String,
+    val message: String?,
     val type: FloatingToastType
 ) : Dialog(context), View.OnClickListener {
 
@@ -31,7 +32,7 @@ class FloatingToastDialog(
 
     constructor(
         context: Context,
-        message: String,
+        message: String?,
         type: FloatingToastType
     ) : this(
         context,
@@ -46,6 +47,9 @@ class FloatingToastDialog(
 
     private var floatingToastAnimation: Int? = null
     private var timerMillis: Long? = null
+    private var mCancelListener: DialogInterface.OnCancelListener? = null
+
+    var onCancel: (() -> Unit)? = null
 
     init {
         slideDown()
@@ -90,13 +94,27 @@ class FloatingToastDialog(
         return this
     }
 
+    fun setCancel(onCancel: () -> Unit): FloatingToastDialog {
+        this.onCancel = onCancel
+        return this
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.dialog_floating_toast)
 
         initComponents()
+
+        this.setOnCancelListener {
+            onCancel?.invoke()
+        }
+
+
     }
+
+
 
     private fun initComponents() {
         window?.attributes?.let { layoutParams ->
@@ -134,4 +152,6 @@ class FloatingToastDialog(
     override fun onClick(v: View) {
         dismiss()
     }
+
+
 }

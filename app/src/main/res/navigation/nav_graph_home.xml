@@ -27,6 +27,12 @@
         <argument
             android:name="id"
             app:argType="integer" />
+        <argument
+            android:name="pokemon"
+            app:argType="com.rob.gab.appokemon.data.domain.model.PokemonDetailsModel"
+            app:nullable="true"
+            android:defaultValue="@null" />
+
     </fragment>
 
 </navigation>

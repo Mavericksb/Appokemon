@@ -7,7 +7,12 @@ import kotlinx.coroutines.flow.Flow
 
 interface PokemonRepository {
 
-    fun getPokemonStream(pageLimit: Int): Flow<PagingData<EntityPokemon>>
+    fun getPokemonStream(offset: Int?, pageLimit: Int): Flow<PagingData<EntityPokemon>>
+
+// # Alternative method, using a flow
+//    suspend fun getPokemonDetailsResource(id: Int): Flow<Resource<*>>
 
     suspend fun getPokemonDetails(id: Int): PokemonDetailsModel?
+
+    suspend fun getPokemonByName(name: String): PokemonDetailsModel?
 }

@@ -8,14 +8,14 @@ import com.rob.gab.appokemon.utils.Utils
 
 
 fun mapDetailsDomainToEntity(pokemonDetailsModel: PokemonDetailsModel): EntityPokemonDetails {
-    return EntityPokemonDetails(
-        id = pokemonDetailsModel.id,
-        name = pokemonDetailsModel.name,
-        height = pokemonDetailsModel.height,
-        weight = pokemonDetailsModel.weight,
-        types = pokemonDetailsModel.types?.map { EntityPokemonDetails.Type(it.name, it.url) },
-        stats = pokemonDetailsModel.stats?.map { EntityPokemonDetails.Stats(it.base, it.effort, it.name, it.url) }
-    )
+        return EntityPokemonDetails(
+            id = pokemonDetailsModel.id,
+            name = pokemonDetailsModel.name,
+            height = pokemonDetailsModel.height,
+            weight = pokemonDetailsModel.weight,
+            types = pokemonDetailsModel.types?.map { EntityPokemonDetails.Type(it.name, it.url) },
+            stats = pokemonDetailsModel.stats?.map { EntityPokemonDetails.Stats(it.base, it.effort, it.name, it.url) }
+        )
 }
 
 fun mapResponseToEntity(pokemonResponse: PokemonResponse?): List<EntityPokemon> {

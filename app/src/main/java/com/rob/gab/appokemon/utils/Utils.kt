@@ -53,7 +53,6 @@ object Utils {
 
     fun showLoading(weakActivity: WeakReference<FragmentActivity>, loadingText: String? = null) {
         weakActivity.get()?.let { activity ->
-//            activity.closeKeyboard()
             ProgressWheelDialog.show(activity, loadingText)
         }
     }

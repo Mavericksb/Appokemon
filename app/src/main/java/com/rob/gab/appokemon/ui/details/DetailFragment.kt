@@ -25,6 +25,7 @@ import java.lang.ref.WeakReference
 
 class DetailFragment : Fragment() {
 
+    private var mPokemonDetailModel: PokemonDetailsModel? = null
     private lateinit var mTypeAdapter: PokemonTypeAdapter
     private lateinit var mStatsAdapter: PokemonStatsAdapter
     private var mPokemonId = 0
@@ -45,11 +46,13 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mPokemonId = DetailFragmentArgs.fromBundle(requireArguments()).id
-        detailViewModel.userIntent.offer(DetailIntent.GetPokemonDetails(mPokemonId))
-
         initComponents()
         observeState()
+
+        mPokemonId = DetailFragmentArgs.fromBundle(requireArguments()).id
+        mPokemonDetailModel = DetailFragmentArgs.fromBundle(requireArguments()).pokemon
+        if(mPokemonDetailModel!=null) fillPokemonDetails(mPokemonDetailModel)
+        else detailViewModel.userIntent.offer(DetailIntent.GetPokemonDetails(mPokemonId))
     }
 
     private fun observeState() {
@@ -65,8 +68,8 @@ class DetailFragment : Fragment() {
                     }
                     is DetailState.Failed -> {
                         hideLoading(WeakReference(requireActivity()))
-                        FloatingToastDialog(requireContext(), "Impossibile contattare il server", FloatingToastDialog.FloatingToastType.Error)
-                            .slideDown().show()
+                        FloatingToastDialog(requireContext(), it.message, FloatingToastDialog.FloatingToastType.Error)
+                            .slideDown().setCancel{ activity?.onBackPressed() }.show()
                     }
                 }
             }
